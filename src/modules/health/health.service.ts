@@ -18,8 +18,7 @@ export class HealthService {
       service: 'identity-hub',
       checks: {
         database,
-      },
-      timestamp: new Date().toISOString(),
+      }
     };
   }
 
