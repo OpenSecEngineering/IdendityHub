@@ -6,6 +6,9 @@ import { AppService } from './app.service.js';
 import config from './config/config.js';
 import { PrismaModule } from './database/prisma.module.js';
 import { HealthModule } from './modules/health/health.module.js';
+import { AuthController } from './modules/auth/auth.controller.js';
+import { AuthService } from './modules/auth/auth.service.js';
+import { AuthModule } from './modules/auth/auth.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -16,6 +19,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     PrismaModule,
     HealthModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
