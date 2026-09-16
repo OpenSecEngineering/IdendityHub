@@ -1,31 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module.js';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ResponseInterceptor } from './common/interceptor/response.interceptor.js';
-import { ValidationPipe } from '@nestjs/common';
-import { HttpExceptionFilter } from './common/filters/https-response.filters.js';
 import config from './config/config.js';
+import { configureApp } from './common/boostrap/configure-app.boostrap.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     instrument: ObserveInstrument,
   });
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  );
 
-  app.useGlobalInterceptors(
-    new ResponseInterceptor(),
-  );
-  
-  app.useGlobalFilters(
-    new HttpExceptionFilter(),
-  )
-  
+  configureApp(app)
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Identity Hub API')
