@@ -5,3 +5,14 @@ export interface ApiResponse<T> {
         timestamp: string;
     };
 }
+
+export interface ApiError {
+  success: false;
+  error: {
+    code: string;
+    message: string;
+  };
+  meta: {
+    timestamp: string;
+  };
+}
