@@ -3,6 +3,8 @@ import { AppModule, ObserveInstrument } from './app.module.js';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ResponseInterceptor } from './common/interceptor/response.interceptor.js';
 import { ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './common/filters/https-response.filters.js';
+import config from './config/config.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -20,6 +22,9 @@ async function bootstrap() {
     new ResponseInterceptor(),
   );
   
+  app.useGlobalFilters(
+    new HttpExceptionFilter(),
+  )
   
 
   const swaggerConfig = new DocumentBuilder()
@@ -40,10 +45,10 @@ async function bootstrap() {
 
   const swaggerDocument = SwaggerModule.createDocument(
     app,
-    swaggerConfig,
+    swaggerConfig, 
   );
 
   SwaggerModule.setup('docs', app, swaggerDocument);
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(config().app.port);
 }
 await bootstrap();
